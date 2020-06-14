@@ -1,0 +1,21 @@
+{
+  "name": "kubadroid",
+  "version": "1.0.0",
+  "description": "news droid for youtube stream",
+  "main": "index.js",
+  "scripts": {
+    "start": "node js/index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "m1g0rb89@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cron": "^1.8.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/cron": "^1.7.2",
+    "nodemon": "^2.0.4"
+  }
+}
