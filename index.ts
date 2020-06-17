@@ -4,34 +4,46 @@ import MeduzaApi from './src/services/api/meduza/MeduzaApi'
 import { config } from 'dotenv'
 import Speecher from './src/services/speech/Speecher'
 import { TextToSpeechClient } from '@google-cloud/text-to-speech'
+import * as express from 'express'
+import * as mongoose from 'mongoose'
+import * as hndbrs from 'express-handlebars'
+import router from './src/routes/Radio'
+
 
 if (process.env.NODE_ENV !== 'production') {
   config()
 }
 
-const meduzaLoader: Loader = new Loader(new MeduzaApi);
-const speecher: Speecher = new Speecher(new TextToSpeechClient())
+const PORT = process.env.PORT || 3000
+const DB_USER = process.env.DB_USER || 'db_user'
+const DB_NAME = process.env.DB_NAME || 'db_name'
+const DB_PASS = process.env.DB_PASS || 'db_pass'
 
+const app = express()
+const hbs = hndbrs.create({
+  defaultLayout: 'main',
+  extname: 'hbs'
+})
 
-// const job: CronJob = new CronJob('* * * * * *', () => {
-//     console.log('You will see this msg EVERY second');
-// }, null, true, 'Europe/Moscow')
+app.engine('hbs', hbs.engine)
+app.set('view engine', 'hbs')
+app.set('views', 'views')
 
-// job.start();
+app.use(router)
 
-const app = async () => {
+async function start() {
+  try {
+    await mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@aiyoutuberadiodev-qtary.mongodb.net/${DB_NAME}`, {
+      useNewUrlParser: true,
+      useFindAndModify: false
+    })
 
-  const list = await meduzaLoader.load();
-
-  console.log(list[9]);
-
-  const filepath = await speecher.createSpeech({
-    text: list[9],
-    langCode: 'ru-RU',
-    speakerName: 'ru-RU-Wavenet-D'
-  });
-
-  console.log(filepath)
+    app.listen(PORT, () => {
+      console.log('server has been started...')
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
-app();
+start()
