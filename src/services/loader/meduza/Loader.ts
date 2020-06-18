@@ -5,7 +5,7 @@ export default class Loader {
     this.api = api
   }
 
-  public async load(): Promise<any> {
+  public async load(): Promise<ILoadableResponse[]> {
     const list = (await this.api.loadList(5))
       .filter((item: any) => {
         const { tag: { name } } = item
@@ -14,22 +14,23 @@ export default class Loader {
       })
 
     const fullArticlesList = await Promise.all(list.map(async (item: any) => {
-      const { url } = item
+      const { url, title } = item
       const { root: { content: { body } } } = await this.api.loadOne(url)
 
-      return body
+      return { title: title, text: body }
     }))
 
-    return fullArticlesList
-      .reduce((acc: [], item: any): any[] => {
-        if (!item) {
-          return acc
-        }
 
-        //TODO: move this action to standalone normalizer
-        return [
-          ...acc,
-          item.replace(/<style.+<\/style>/is, '')
+    return fullArticlesList.reduce((acc: [], { title, text }): any => {
+      if (!text || !title) {
+        return acc
+      }
+
+      return [
+        ...acc,
+        {
+          title,
+          text: text.replace(/<style.+<\/style>/is, '')
             .replace(/<script.+<\/script>/is, '')
             .replace(/<div class="Related".+<\/div>/is, '')
             .replace(/<div class="EmbedCode".+<\/div>/is, '')
@@ -41,8 +42,10 @@ export default class Loader {
             .replace(/\n/g, '')
             .replace(/\s{2,}/g, '')
             .trim()
-        ]
-      }, [])
-      .filter((item: any) => !!item)
+        }
+      ]
+    }, [])
+    .filter(({text}) => !!text)
+
   }
 }

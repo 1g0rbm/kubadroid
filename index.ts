@@ -1,4 +1,3 @@
-import { CronJob } from 'cron'
 import Loader from './src/services/loader/meduza/Loader'
 import MeduzaApi from './src/services/api/meduza/MeduzaApi'
 import { config } from 'dotenv'
