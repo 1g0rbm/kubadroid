@@ -7,6 +7,8 @@ import * as express from 'express'
 import * as mongoose from 'mongoose'
 import * as hndbrs from 'express-handlebars'
 import router from './src/routes/Radio'
+import { job } from './src/crons/NewsMaker'
+import moment = require('moment')
 
 
 if (process.env.NODE_ENV !== 'production') {
@@ -21,7 +23,11 @@ const DB_PASS = process.env.DB_PASS || 'db_pass'
 const app = express()
 const hbs = hndbrs.create({
   defaultLayout: 'main',
-  extname: 'hbs'
+  extname: 'hbs',
+  helpers: {
+    trimStr: (string: string, length: number) => string.substring(0, length) + '...',
+    formatDate: (date: Date, format: string) => moment(date).format(format)
+  }
 })
 
 app.engine('hbs', hbs.engine)
@@ -36,6 +42,8 @@ async function start() {
       useNewUrlParser: true,
       useFindAndModify: false
     })
+
+    job.start()
 
     app.listen(PORT, () => {
       console.log('server has been started...')

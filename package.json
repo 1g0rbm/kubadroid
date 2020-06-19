@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@types/cron": "^1.7.2",
+    "handlebars": "^4.7.6",
     "nodemon": "^2.0.4"
   }
 }

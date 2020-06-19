@@ -1,1 +1,27 @@
 <h2>Timetable</h2>
+{{#if news.length}}
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Is published</th>
+      <th>Has audio</th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each news}}
+    <tr>
+      <td>{{ @key }}</td>
+      <td>{{{ trimStr title 50 }}}</td>
+      <td>{{#if isPublished }} yes {{else}} no {{/if }}</td>
+      <td>{{#if filepath }} yes {{else}} no {{/if }}</td>
+      <td>{{{ formatDate createdAt 'DD-MM-YYYY h:mm:s' }}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+<p class="flow-text">There aren't news</p>
+{{/if}}

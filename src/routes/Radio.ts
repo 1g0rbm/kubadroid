@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import News from '../models/News'
 
 const router: Router = Router()
 
@@ -15,10 +16,14 @@ router.get('/on-air', (req, res) => {
   })
 })
 
-router.get('/timetable', (req, res) => {
+router.get('/timetable', async (req, res) => {
+
+  const news = await News.find({}).lean()
+
   res.render('timetable', {
     title: 'Timetable',
-    isTimeTable: true
+    isTimeTable: true,
+    news
   })
 })
 
