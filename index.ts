@@ -1,13 +1,10 @@
-import Loader from './src/services/loader/meduza/Loader'
-import MeduzaApi from './src/services/api/meduza/MeduzaApi'
-import { config } from 'dotenv'
-import Speecher from './src/services/speech/Speecher'
-import { TextToSpeechClient } from '@google-cloud/text-to-speech'
 import * as express from 'express'
 import * as mongoose from 'mongoose'
 import * as hndbrs from 'express-handlebars'
 import router from './src/routes/Radio'
-import { job } from './src/crons/NewsMaker'
+import { config } from 'dotenv'
+import { newsmaker } from './src/crons/NewsMaker'
+import { voiceover } from './src/crons/Voiceover'
 import moment = require('moment')
 
 
@@ -43,7 +40,8 @@ async function start() {
       useFindAndModify: false
     })
 
-    job.start()
+    newsmaker.job().start()
+    voiceover.job().start()
 
     app.listen(PORT, () => {
       console.log('server has been started...')
