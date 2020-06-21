@@ -7,6 +7,7 @@ export namespace voiceover {
   const speecher: Speecher = new Speecher(new TextToSpeechClient.TextToSpeechClient())
 
   export function job(): CronJob {
+    console.log('Job voiceover has been started...')
     return new CronJob(
       '0 0/8 * * *',
       maker,

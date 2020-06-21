@@ -7,6 +7,7 @@ const loader: Loader = new Loader(new MeduzaApi)
 
 export namespace newsmaker {
   export function job(): CronJob {
+    console.log('Job newsmaker has been started...')
     return new CronJob(
       '0 * * * *',
       maker
