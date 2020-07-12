@@ -15,6 +15,8 @@ const DB_PASS = process.env.DB_PASS || 'db_pass'
 
 const app = express()
 
+app.use(express.json())
+
 app.use('/api/auth', authRouter)
 app.use('/api/radio', radioRouter)
 

@@ -1,11 +1,13 @@
 import React from 'react'
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom"
+import {useRoutes} from "./routes"
+import {useSelector} from "react-redux"
 import './App.css'
 import 'materialize-css'
-import {useRoutes} from "./routes";
 
 function App() {
-  const routes = useRoutes(false)
+  const {token} = useSelector(({authData}) => authData)
+  const routes = useRoutes(!!token)
   return (
     <BrowserRouter>
       <div className="container">

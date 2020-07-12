@@ -1,0 +1,5 @@
+export const AUTH_FORM = 'AUTH/FORM_FILLING'
+export const REGISTER = 'AUTH/REGISTER'
+export const LOGIN = 'AUTH/LOGIN'
+export const AUTH_FORM_SWITCH = 'AUTH/FORM_SWITCH'
+export const AUTH_DATA = 'AUTH/DATA'

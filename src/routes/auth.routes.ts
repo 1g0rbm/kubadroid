@@ -15,12 +15,12 @@ authRouter.post(
   async (req: Request, res: Response): Promise<Response> => {
     try {
       const errors = validationResult(req)
-      if (errors.isEmpty()) {
+      if (!errors.isEmpty()) {
         return res
           .status(400)
           .json({
             errors: errors.array(),
-            message: 'Invalid data'
+            message: 'Invalid registration data'
           })
       }
 
@@ -46,6 +46,7 @@ authRouter.post(
           message: 'User has been created'
         })
     } catch (e) {
+        console.log(e.message)
       return res
         .status(500)
         .json({
@@ -58,22 +59,21 @@ authRouter.post(
   '/login',
   [
     check('email', 'Wrong email').isEmail(),
-    check('password', 'Min password length must be 6 symbols').isLength({ min: 6 }),
-    check('name', 'Min name length must be 3 symbols').isLength({ min: 6 })
+    check('password', 'Min password length must be 6 symbols').isLength({ min: 6 })
   ],
   async (req: Request, res: Response) => {
     try {
       const errors = validationResult(req)
-      if (errors.isEmpty()) {
+      if (!errors.isEmpty()) {
         return res
           .status(400)
           .json({
             errors: errors.array(),
-            message: 'Invalid data'
+            message: 'Invalid login data'
           })
       }
 
-      const { name, email, password } = req.body
+      const { email, password } = req.body
 
       const user = await User.findOne({ email })
       if (!user) {
