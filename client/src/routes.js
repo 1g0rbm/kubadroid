@@ -1,8 +1,8 @@
 import React from "react"
 import {Switch, Route, Redirect} from "react-router-dom"
-import {NewsPage} from "./components/NewsPage";
-import {ProgramsPage} from "./components/ProgramsPage";
-import AuthPage from "./components/AuthPage";
+import {NewsPage} from "./components/pages/NewsPage";
+import {ProgramsPage} from "./components/pages/ProgramsPage";
+import AuthPage from "./components/pages/AuthPage";
 
 export const useRoutes = isAuthenticated => {
   if (isAuthenticated) {
