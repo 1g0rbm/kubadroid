@@ -1,4 +1,4 @@
-import {AUTH_FORM_SWITCH} from "./types";
+import {AUTH_FORM_SWITCH} from "../types";
 
 const initial = 'login'
 

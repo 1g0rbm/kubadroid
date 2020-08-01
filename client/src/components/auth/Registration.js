@@ -1,7 +1,7 @@
 import React from "react"
-import {useDispatch, useSelector} from "react-redux";
-import {extractFormData, sendRegister, clearRegisterStore} from "../../redux/authFormActions";
-import {useMessage} from "../../hoooks/message.hook";
+import {useDispatch, useSelector} from "react-redux"
+import {extractFormData, sendRegister, clearRegisterStore} from "../../redux/auth/authFormActions"
+import {useMessage} from "../../hoooks/message.hook"
 
 export default () => {
   const {form, message} = useSelector(({form, registerSubmit}) => {

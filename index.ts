@@ -1,10 +1,11 @@
 import * as express from 'express'
 import * as mongoose from 'mongoose'
-import radioRouter from './src/routes/radio.routes'
+import {config} from 'dotenv'
+import {newsmaker} from './src/crons/NewsMaker'
+import {voiceover} from './src/crons/Voiceover'
 import authRouter from './src/routes/auth.routes'
-import { config } from 'dotenv'
-import { newsmaker } from './src/crons/NewsMaker'
-import { voiceover } from './src/crons/Voiceover'
+import newsRouter from "./src/routes/news.routes";
+import broadcastRouter from "./src/routes/broadcast.routes";
 
 config()
 
@@ -18,7 +19,8 @@ const app = express()
 app.use(express.json())
 
 app.use('/api/auth', authRouter)
-app.use('/api/radio', radioRouter)
+app.use('/api/news', newsRouter)
+app.use('/api/broadcasts', broadcastRouter)
 
 async function start() {
   try {

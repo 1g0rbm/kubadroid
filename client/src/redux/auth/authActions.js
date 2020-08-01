@@ -1,4 +1,4 @@
-import {AUTH_DATA} from "./types"
+import {AUTH_DATA} from "../types"
 
 const storageName = 'storageData'
 
@@ -13,7 +13,6 @@ export function login({token, userId}) {
 
 export function logout() {
   localStorage.removeItem(storageName)
-
   return {
     type: AUTH_DATA,
     payload: {token: null, userId: null}

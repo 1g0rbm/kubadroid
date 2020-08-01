@@ -2,7 +2,7 @@ import React from "react"
 import {useDispatch, useSelector} from "react-redux"
 import RegistrationPage from "../auth/Registration"
 import LoginPage from "../auth/Login";
-import {switchAuthForm} from "../../redux/authFormActions";
+import {switchAuthForm} from "../../redux/auth/authFormActions";
 
 export default () => {
 

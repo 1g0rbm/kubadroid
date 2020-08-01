@@ -1,4 +1,4 @@
-import {REGISTER, AUTH_FORM, LOGIN} from "./types";
+import {REGISTER, AUTH_FORM, LOGIN} from "../types";
 
 const initialFormState = {}
 

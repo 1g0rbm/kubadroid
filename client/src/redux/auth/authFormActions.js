@@ -1,4 +1,4 @@
-import {AUTH_FORM_SWITCH, REGISTER, AUTH_FORM, LOGIN, AUTH_DATA} from "./types";
+import {AUTH_FORM_SWITCH, REGISTER, AUTH_FORM, LOGIN, AUTH_DATA} from "../types";
 import {login} from "./authActions";
 
 export function extractFormData(payload) {

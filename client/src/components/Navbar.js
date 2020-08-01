@@ -1,7 +1,7 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {useDispatch} from "react-redux"
-import {logout} from "../redux/authActions"
+import {logout} from "../redux/auth/authActions"
 
 export default () => {
   const dispatch = useDispatch()

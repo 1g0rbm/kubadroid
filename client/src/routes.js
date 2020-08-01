@@ -1,7 +1,7 @@
 import React from "react"
 import {Switch, Route, Redirect} from "react-router-dom"
 import {NewsPage} from "./components/pages/NewsPage";
-import {ProgramsPage} from "./components/pages/ProgramsPage";
+import {BroadcastsPage} from "./components/pages/BroadcastsPage";
 import AuthPage from "./components/pages/AuthPage";
 
 export const useRoutes = isAuthenticated => {
@@ -11,10 +11,10 @@ export const useRoutes = isAuthenticated => {
         <Route path={"/news"} exact>
           <NewsPage/>
         </Route>
-        <Route path={"/programs"} exact>
-          <ProgramsPage/>
+        <Route path={"/broadcasts"} exact>
+          <BroadcastsPage/>
         </Route>
-        <Redirect to="/programs"/>
+        <Redirect to="/broadcasts"/>
       </Switch>
     )
   }

@@ -1,6 +1,6 @@
 import React from "react"
 import {useDispatch, useSelector} from "react-redux";
-import {clearLoginStore, extractFormData, sendLogin} from "../../redux/authFormActions";
+import {clearLoginStore, extractFormData, sendLogin} from "../../redux/auth/authFormActions";
 import {useMessage} from "../../hoooks/message.hook";
 
 export default () => {

@@ -19,7 +19,6 @@ export namespace voiceover {
 
   export async function maker() {
     const news = await News.find({
-      isPublished: false,
       filepath: null,
       type: 'news'
     })

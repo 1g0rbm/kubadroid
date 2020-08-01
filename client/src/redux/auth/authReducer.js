@@ -1,4 +1,4 @@
-import {AUTH_DATA} from "./types"
+import {AUTH_DATA} from "../types"
 
 const storageName = 'storageData'
 const authState = JSON.parse(localStorage.getItem(storageName)) || {

@@ -1,6 +1,6 @@
 import React from "react"
 
-export const ProgramsPage = () => {
+export const BroadcastsPage = () => {
   return (
     <div>
       <h1>Program page</h1>
