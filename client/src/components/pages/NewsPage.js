@@ -1,6 +1,7 @@
 import React, {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {loadList, deleteNews} from "../../redux/newsActions";
+import classnames from 'classnames';
+import {loadList, deleteNews, approveNews} from "../../redux/newsActions";
 import {Pagination} from "../pagination/Pagination";
 
 export const NewsPage = () => {
@@ -17,7 +18,10 @@ export const NewsPage = () => {
 
   const removeNewsHandler = newsId => {
     dispatch(deleteNews(newsId))
-    dispatch(loadList(currentPage, limit))
+  }
+
+  const approveHandler = newsId => {
+    dispatch(approveNews(newsId))
   }
 
   const printDate = date => new Intl.DateTimeFormat("ru-RU", {
@@ -51,6 +55,15 @@ export const NewsPage = () => {
                     <span className="right grey-text">{printDate(item.createdAt)}</span>
                   </div>
                   <div className="card-action">
+                    <button className={classnames(
+                      'btn-floating btn-small waves-effect waves-light btn-floating',
+                      {grey: !item.approved},
+                      {green: item.approved}
+                    )}
+                            onClick={() => approveHandler(item._id)}
+                    >
+                      <i className="material-icons">thumb_up</i>
+                    </button>
                     <button className="btn-floating btn-small waves-effect waves-light red"
                             onClick={() => removeNewsHandler(item._id)}
                     >
