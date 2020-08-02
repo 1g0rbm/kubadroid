@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import {Schema, model} from 'mongoose'
 
 const schema: Schema = new Schema({
   type: {
@@ -17,6 +17,11 @@ const schema: Schema = new Schema({
   text: {
     type: String,
     required: true
+  },
+  approved: {
+    type: Boolean,
+    required: false,
+    default: false
   },
   createdAt: {
     type: Date,

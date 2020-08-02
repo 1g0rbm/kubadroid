@@ -18,11 +18,40 @@ newsRouter.get(
       const total = await News.find().count()
       const items = await News.find().skip(skip).limit(limit).sort({createdAt: -1})
 
-      res.json({items, total})
+      return res.json({items, total})
     } catch (e) {
-      res.status(500)
+      return res.status(500)
         .json({
           message: 'Something went wrong. Try again later'
+        })
+    }
+  })
+
+newsRouter.post(
+  '/approve/:id',
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const {id} = req.params
+      const news = await News.findOne({_id: id})
+
+      if (news === null) {
+        return res.status(404)
+          .json({
+            message: `News with id = "${id}" not found`
+          })
+      }
+
+      const value = !news.get('approved')
+      const message = value ? 'News were approved' : 'News were unapproved'
+
+      news.set('approved', value).save()
+
+      return res.json({message, approved: value})
+    } catch (e) {
+      return res.status(500)
+        .json({
+          message: e.message
         })
     }
   })
