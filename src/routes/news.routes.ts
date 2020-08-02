@@ -1,6 +1,7 @@
 import {Request, Response, Router} from 'express'
 import News from "../models/News";
 import auth from '../middlewares/auth.middleware'
+import {unlinkSync, existsSync} from 'fs'
 
 const newsRouter: Router = Router()
 
@@ -18,6 +19,27 @@ newsRouter.get(
       const items = await News.find().skip(skip).limit(limit).sort({createdAt: -1})
 
       res.json({items, total})
+    } catch (e) {
+      res.status(500)
+        .json({
+          message: 'Something went wrong. Try again later'
+        })
+    }
+  })
+
+newsRouter.delete(
+  '/:id',
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const {id} = req.params
+      const news = await News.findOneAndRemove({_id: id})
+
+      if (news && existsSync(news.get('filepath'))) {
+        unlinkSync(news.get('filepath'))
+      }
+
+      res.json({message: 'news were deleted'})
     } catch (e) {
       res.status(500)
         .json({

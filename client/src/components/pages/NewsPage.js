@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {loadList} from "../../redux/newsActions";
+import {loadList, deleteNews} from "../../redux/newsActions";
 import {Pagination} from "../pagination/Pagination";
 
 export const NewsPage = () => {
@@ -14,6 +14,17 @@ export const NewsPage = () => {
   })
 
   const dispatch = useDispatch()
+
+  const removeNewsHandler = newsId => {
+    dispatch(deleteNews(newsId))
+    dispatch(loadList(currentPage, limit))
+  }
+
+  const printDate = date => new Intl.DateTimeFormat("ru-RU", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit"
+  }).format(new Date(date))
 
   useEffect(() => {
     dispatch(loadList())
@@ -37,6 +48,14 @@ export const NewsPage = () => {
                   <div className="card-content">
                     <span className="card-title">{item.title}</span>
                     <p>{item.text}</p>
+                    <span className="right grey-text">{printDate(item.createdAt)}</span>
+                  </div>
+                  <div className="card-action">
+                    <button className="btn-floating btn-small waves-effect waves-light red"
+                            onClick={() => removeNewsHandler(item._id)}
+                    >
+                      <i className="material-icons">delete</i>
+                    </button>
                   </div>
                 </div>
               </div>

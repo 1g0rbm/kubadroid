@@ -18,6 +18,7 @@ const app = express()
 
 app.use(express.json())
 
+app.use(express.static('static'));
 app.use('/api/auth', authRouter)
 app.use('/api/news', newsRouter)
 app.use('/api/broadcasts', broadcastRouter)

@@ -4,7 +4,8 @@
 
 node_modules
 js
-sounds/*
+static/sounds/*
+static/*
 rest
 
 .env

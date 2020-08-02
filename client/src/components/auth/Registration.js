@@ -68,7 +68,6 @@ export default () => {
       <button
         className="waves-effect waves-light btn-small"
         onClick={submit}
-        // disabled={loading}
       >
         Register
       </button>

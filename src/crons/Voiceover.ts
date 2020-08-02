@@ -25,7 +25,7 @@ export namespace voiceover {
 
     news.map(async (item): Promise<void> => {
       const path: string = await speecher.createSpeech({
-        text: item.get('title'),
+        text: item.get('text'),
         langCode: 'ru-RU',
         speakerName: 'ru-RU-Wavenet-D'
       })
