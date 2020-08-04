@@ -1,4 +1,4 @@
-import {NEWS_APPROVED, NEWS_DELETE, NEWS_LIST} from "./types";
+import {NEWS_APPROVED, NEWS_DELETE, NEWS_LIST, NEWS_VOCALIZED} from "./types";
 
 const initialState = {
   items: [],
@@ -23,6 +23,19 @@ export const newsListReducer = (state = initialState, {type, payload}) => {
         items: state.items.map(news => {
           if (news._id === payload.newsId) {
             news.approved = payload.approved
+          }
+
+          return news
+        }),
+        currentPage: state.currentPage,
+        limit: state.limit,
+        total: state.total
+      }
+    case NEWS_VOCALIZED:
+      return {
+        items: state.items.map(news => {
+          if (news._id === payload.newsId) {
+            news.filepath = payload.filepath
           }
 
           return news

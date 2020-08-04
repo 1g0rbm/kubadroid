@@ -2,6 +2,8 @@ import {Request, Response, Router} from 'express'
 import News from "../models/News";
 import auth from '../middlewares/auth.middleware'
 import {unlinkSync, existsSync} from 'fs'
+import Speecher from '../services/speech/Speecher'
+import TextToSpeechClient from '@google-cloud/text-to-speech'
 
 const newsRouter: Router = Router()
 
@@ -73,6 +75,46 @@ newsRouter.delete(
       res.status(500)
         .json({
           message: 'Something went wrong. Try again later'
+        })
+    }
+  })
+
+newsRouter.post(
+  '/vocalize/:id',
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const {id} = req.params
+      const news = await News.findById(id)
+
+      if (news === null) {
+        return res.status(404)
+          .json({
+            message: `News with id = "${id}" not found`
+          })
+      }
+
+      if (news.get('filepath') !== null) {
+        return res.json({
+          message: 'Filepath already exist',
+          filepath: news.get('filepath')
+        })
+      }
+
+      const speecher: Speecher = new Speecher(new TextToSpeechClient.TextToSpeechClient())
+      const filepath: string = await speecher.createSpeech({
+        text: news.get('text'),
+        langCode: 'ru-RU',
+        speakerName: 'ru-RU-Wavenet-D'
+      })
+
+      news.set('filepath', filepath).save()
+
+      return res.json({message: 'Vocalize was created', filepath})
+    } catch (e) {
+      res.status(500)
+        .json({
+          message: e.message
         })
     }
   })

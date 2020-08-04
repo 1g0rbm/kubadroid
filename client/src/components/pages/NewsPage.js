@@ -1,16 +1,20 @@
 import React, {useEffect} from "react"
-import {useDispatch, useSelector} from "react-redux"
 import classnames from 'classnames';
-import {loadList, deleteNews, approveNews} from "../../redux/newsActions";
+import {useDispatch, useSelector} from "react-redux"
+import ReactPlayer from 'react-player'
+import {loadList, deleteNews, approveNews, vocalizeNews} from "../../redux/newsActions";
 import {Pagination} from "../pagination/Pagination";
+import {playToggle} from "../../redux/player/playerActions";
 
 export const NewsPage = () => {
-  const {news, limit, total, currentPage} = useSelector(({newsList}) => {
+  const {news, limit, total, currentPage, playing, url} = useSelector(({newsList, player}) => {
     return {
       news: newsList.items,
       limit: newsList.limit,
       total: newsList.total,
       currentPage: newsList.currentPage,
+      playing: player.playing,
+      url: player.url,
     }
   })
 
@@ -22,6 +26,62 @@ export const NewsPage = () => {
 
   const approveHandler = newsId => {
     dispatch(approveNews(newsId))
+  }
+
+  const vocalizeHandler = newsId => {
+    dispatch(vocalizeNews(newsId))
+  }
+
+  const playHandler = _url => {
+    dispatch(playToggle(url === _url ? !playing : true, _url))
+  }
+
+  const renderVoiceoverBtn = item => {
+    if (item.filepath === null && item.approved) {
+      return (
+        <button className="btn-floating btn-small waves-effect waves-light grey"
+                onClick={() => vocalizeHandler(item._id)}
+        >
+          <i className="material-icons">keyboard_voice</i>
+        </button>
+      )
+    }
+
+    return null
+  }
+
+  const renderPlayBtn = item => {
+    if (item.filepath === null) {
+      return null
+    }
+
+    if (playing && item.filepath === url) {
+      return (
+        <button className="btn-floating btn-small waves-effect waves-light grey"
+                onClick={() => playHandler(item.filepath)}
+        >
+          <i className="material-icons">play_circle_filled</i>
+        </button>
+      )
+    }
+
+    if (!playing && item.filepath === url) {
+      return (
+        <button className="btn-floating btn-small waves-effect waves-light grey"
+                onClick={() => playHandler(item.filepath)}
+        >
+          <i className="material-icons">pause_circle_filled</i>
+        </button>
+      )
+    }
+
+    return (
+      <button className="btn-floating btn-small waves-effect waves-light grey"
+              onClick={() => playHandler(item.filepath)}
+      >
+        <i className="material-icons">play_circle_outline</i>
+      </button>
+    )
   }
 
   const printDate = date => new Intl.DateTimeFormat("ru-RU", {
@@ -37,6 +97,16 @@ export const NewsPage = () => {
   return (
     <div>
       <h1>News</h1>
+      <div className='player-wrapper'>
+        <ReactPlayer
+          className='react-player'
+          url={url}
+          playing={playing}
+          width='100%'
+          height='100%'
+          onError={e => console.log('onError', e)}
+        />
+      </div>
       <Pagination
         limit={limit}
         total={total}
@@ -64,6 +134,8 @@ export const NewsPage = () => {
                     >
                       <i className="material-icons">thumb_up</i>
                     </button>
+                    {renderVoiceoverBtn(item)}
+                    {renderPlayBtn(item)}
                     <button className="btn-floating btn-small waves-effect waves-light red"
                             onClick={() => removeNewsHandler(item._id)}
                     >

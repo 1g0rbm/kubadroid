@@ -1,4 +1,4 @@
-import {NEWS_DELETE, NEWS_LIST, NEWS_APPROVED} from "./types";
+import {NEWS_DELETE, NEWS_LIST, NEWS_APPROVED, NEWS_VOCALIZED} from "./types";
 import {logout} from "./auth/authActions";
 
 export function loadList(page = 1, limit = 10) {
@@ -22,6 +22,10 @@ export function loadList(page = 1, limit = 10) {
     }
 
     const json = await response.json()
+
+    if (json.items.length === 0 && page > 1) {
+      dispatch(loadList(page - 1, limit))
+    }
 
     dispatch({type: NEWS_LIST, payload: {...json, limit, currentPage: page}})
   }
@@ -83,5 +87,35 @@ export function approveNews(newsId) {
     const {approved} = await response.json()
 
     dispatch({type: NEWS_APPROVED, payload: {newsId, approved}})
+  }
+}
+
+export function vocalizeNews(newsId) {
+  return async (dispatch, getState) => {
+    const {authData: {token}} = getState()
+
+    const response = await fetch(
+      `/api/news/vocalize/${newsId}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      }
+    )
+
+    if (response.status === 401) {
+      dispatch(logout())
+    }
+
+    if (response.status !== 200) {
+      throw new Error('It is impossible to vocalize news. Try again later')
+    }
+
+    const {filepath} = await response.json()
+
+    dispatch({type: NEWS_VOCALIZED, payload: {newsId, filepath}})
   }
 }

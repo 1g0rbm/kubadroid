@@ -3,6 +3,7 @@ import {authFormReducer, registerSubmitReducer, loginSubmitReducer} from "./auth
 import {switchAuthFormReducer} from "./auth/authFormSwitchReducer"
 import {authReducer} from "./auth/authReducer"
 import {newsListReducer} from "./newsReducer";
+import {playerReducer} from "./player/playerReducer";
 
 export const rootReducer = combineReducers({
   form: authFormReducer,
@@ -10,5 +11,6 @@ export const rootReducer = combineReducers({
   loginSubmit: loginSubmitReducer,
   authFormSwitch: switchAuthFormReducer,
   authData: authReducer,
-  newsList: newsListReducer
+  newsList: newsListReducer,
+  player: playerReducer
 })

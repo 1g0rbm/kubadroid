@@ -26,7 +26,7 @@ export default class Speecher {
       throw Error('[Google] Could not receive audio')
     }
 
-    const rootPath = `${process.cwd()}`
+    const rootPath = `${process.cwd()}/static`
     const relativePath = `/sounds/${moment().format('DD-MM-YYYY')}`
 
     if (!existsSync(rootPath + relativePath)) {

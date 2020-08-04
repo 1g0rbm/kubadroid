@@ -1,5 +1,5 @@
 import News from '../models/News'
-import { CronJob } from 'cron'
+import {CronJob} from 'cron'
 import Speecher from '../services/speech/Speecher'
 import TextToSpeechClient from '@google-cloud/text-to-speech'
 
@@ -20,7 +20,8 @@ export namespace voiceover {
   export async function maker() {
     const news = await News.find({
       filepath: null,
-      type: 'news'
+      type: 'news',
+      approved: true
     })
 
     news.map(async (item): Promise<void> => {
