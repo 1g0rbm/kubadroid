@@ -45,7 +45,7 @@ export const Pagination = ({limit, total, currentPage, loader}) => {
   const createPortions = () => {
     const sequencePages = paginationGenerate(1, pages)
 
-    if (currentPage < 5 && pages <= 5) {
+    if (currentPage < 5 && pages <= 7) {
       return [...sequencePages.slice(0, 7)]
     }
 
