@@ -7,6 +7,8 @@ import authRouter from './src/routes/auth.routes'
 import newsRouter from "./src/routes/news.routes";
 import broadcastRouter from "./src/routes/broadcast.routes";
 
+const cookieParser = require('cookie-parser')
+
 config()
 
 const PORT = process.env.APP_PORT || 3000
@@ -16,6 +18,7 @@ const DB_PASS = process.env.DB_PASS || 'db_pass'
 
 const app = express()
 
+app.use(cookieParser())
 app.use(express.json())
 
 app.use(express.static('static'));

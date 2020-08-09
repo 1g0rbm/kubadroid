@@ -1,5 +1,5 @@
 import {NEWS_DELETE, NEWS_LIST, NEWS_APPROVED, NEWS_VOCALIZED} from "./types";
-import {logout} from "./auth/authActions";
+import {refresh} from "./auth/authActions";
 
 export function loadList(page = 1, limit = 10) {
   return async (dispatch, getState) => {
@@ -18,12 +18,12 @@ export function loadList(page = 1, limit = 10) {
     )
 
     if (response.status === 401) {
-      dispatch(logout())
+      dispatch(refresh(() => loadList(page, limit)))
     }
 
     const json = await response.json()
 
-    if (json.items.length === 0 && page > 1) {
+    if (json.items && json.items.length === 0 && page > 1) {
       dispatch(loadList(page - 1, limit))
     }
 
@@ -48,7 +48,7 @@ export function deleteNews(newsId) {
     )
 
     if (response.status === 401) {
-      dispatch(logout())
+      dispatch(refresh(() => deleteNews(newsId)))
     }
 
     if (response.status !== 200) {
@@ -77,7 +77,7 @@ export function approveNews(newsId) {
     )
 
     if (response.status === 401) {
-      dispatch(logout())
+      dispatch(refresh(() => approveNews(newsId)))
     }
 
     if (response.status !== 200) {
@@ -107,7 +107,7 @@ export function vocalizeNews(newsId) {
     )
 
     if (response.status === 401) {
-      dispatch(logout())
+      dispatch(refresh(() => vocalizeNews(newsId)))
     }
 
     if (response.status !== 200) {

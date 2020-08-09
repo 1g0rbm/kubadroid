@@ -3,7 +3,8 @@ import {AUTH_DATA} from "../types"
 const storageName = 'storageData'
 const authState = JSON.parse(localStorage.getItem(storageName)) || {
   userId: null,
-  token: null
+  token: null,
+  canRefresh: true
 }
 
 export const authReducer = (state = authState, {type, payload}) => {

@@ -5,7 +5,7 @@ export const Pagination = ({limit, total, currentPage, loader}) => {
 
   const dispatch = useDispatch()
 
-  const pages = Math.ceil(total / limit)
+  const pages = Math.ceil(total / limit) || 0
 
   const paginationGenerate = (begin, end, acc = []) => {
     if (begin >= end) {
