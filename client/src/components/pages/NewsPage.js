@@ -31,8 +31,7 @@ export const NewsPage = () => {
 
       {news && news.map(item => <News key={item._id} item={item}/>)}
 
-      <Pagination limit={limit} total={total} currentPage={currentPage} loader={() => loadList}
-      />
+      <Pagination limit={limit} total={total} currentPage={currentPage} loader={() => loadList}/>
     </div>
   )
 }

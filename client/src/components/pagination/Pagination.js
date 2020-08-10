@@ -82,15 +82,16 @@ export const Pagination = ({limit, total, currentPage, loader}) => {
         </a>
       </li>
       {
-        createPortions().map(num => {
+        createPortions().map((num, idx) => {
           if (num === '...') {
-            return <li className="disabled"><a>{num}</a></li>
+            return <li key={idx} className="disabled"><a>{num}</a></li>
           }
 
           return (
             <li
               onClick={event => paginationHandler(event, num)}
               className={num === currentPage ? 'active' : 'waves-effect'}
+              key={idx}
             >
               <a href="#">{num}</a>
             </li>
