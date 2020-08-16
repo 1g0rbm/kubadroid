@@ -1,7 +1,7 @@
 import {Request, Response, Router} from 'express'
 import News from "../models/News";
 import auth from '../middlewares/auth.middleware'
-import {unlinkSync, existsSync} from 'fs'
+import {existsSync, unlinkSync} from 'fs'
 import Speecher from '../services/speech/Speecher'
 import TextToSpeechClient from '@google-cloud/text-to-speech'
 
@@ -73,6 +73,26 @@ newsRouter.delete(
       res.json({message: 'news were deleted'})
     } catch (e) {
       res.status(500)
+        .json({
+          message: 'Something went wrong. Try again later'
+        })
+    }
+  })
+
+newsRouter.post(
+  '/edit/:id',
+  auth,
+  async (req: Request, res: Response) => {
+    try {
+      const {data} = req.body
+      const {id} = req.params
+
+      await News.update({_id: id}, {$set: data})
+
+      return res.json({message: 'news were updated'})
+    } catch (e) {
+      console.log('ERR: ', e.message)
+      return res.status(500)
         .json({
           message: 'Something went wrong. Try again later'
         })

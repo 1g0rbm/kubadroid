@@ -20,3 +20,9 @@
 .auth-form .actions button {
     margin: 0 5px;
 }
+
+.editor-text-area {
+    border-bottom: 2px solid #dedede;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+}

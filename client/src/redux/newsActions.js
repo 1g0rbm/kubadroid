@@ -1,4 +1,4 @@
-import {NEWS_DELETE, NEWS_LIST, NEWS_APPROVED, NEWS_VOCALIZED} from "./types";
+import {NEWS_APPROVED, NEWS_DELETE, NEWS_LIST, NEWS_UPDATED, NEWS_VOCALIZED} from "./types";
 import {refresh} from "./auth/authActions";
 
 export function loadList(page = 1, limit = 10) {
@@ -117,5 +117,30 @@ export function vocalizeNews(newsId) {
     const {filepath} = await response.json()
 
     dispatch({type: NEWS_VOCALIZED, payload: {newsId, filepath}})
+  }
+}
+
+export function updateNews(data) {
+  return async (dispatch, getState) => {
+    const {authData: {token}, editedNews} = getState()
+
+    const response = await fetch(
+      `/api/news/edit/${editedNews._id}`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({data: {...editedNews, ...data}})
+      }
+    )
+
+    if (response.status !== 200) {
+      throw new Error('It is impossible to update news. Try again later')
+    }
+
+    dispatch({type: NEWS_UPDATED, payload: {newsId: editedNews._id, ...data}})
   }
 }

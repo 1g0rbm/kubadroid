@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {approveNews, deleteNews, vocalizeNews} from "../redux/newsActions";
 import {playToggle} from "../redux/player/playerActions";
 import classnames from "classnames";
+import {useModal} from "../hoooks/modal.hook"
+import {loadContentNews} from "../redux/editor/newsEditorActions";
 
 export const News = ({item}) => {
   const {playing, url} = useSelector(({player}) => {
@@ -28,6 +30,15 @@ export const News = ({item}) => {
 
   const playHandler = _url => {
     dispatch(playToggle(url === _url ? !playing : true, _url))
+  }
+
+  const modalHook = useModal()
+
+  const editHandler = (news) => {
+    dispatch(loadContentNews(news))
+    modalHook('modal1', modal => {
+      modal.open()
+    })
   }
 
   const renderVoiceoverBtn = item => {
@@ -102,6 +113,19 @@ export const News = ({item}) => {
     )
   }
 
+  const renderEditBtn = item => {
+    if (item.approved) {
+      return (
+        <button className="btn-floating btn-small waves-effect waves-light grey"
+                data-target="modal1"
+                onClick={() => editHandler(item)}
+        >
+          <i className="material-icons">edit</i>
+        </button>
+      )
+    }
+  }
+
   const printDate = date => new Intl.DateTimeFormat("ru-RU", {
     year: "numeric",
     month: "long",
@@ -120,6 +144,7 @@ export const News = ({item}) => {
           <div className="card-action">
             {renderApproveBtn(item)}
             {renderVoiceoverBtn(item)}
+            {renderEditBtn(item)}
             {renderPlayBtn(item)}
             {renderDeleteBtn(item)}
           </div>
