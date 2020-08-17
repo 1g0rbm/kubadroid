@@ -137,7 +137,10 @@ export const News = ({item}) => {
           <div className="card-content">
             <span className="card-title">{item.title}</span>
             <p>{item.text}</p>
-            <span className="right grey-text">{printDate(item.createdAt)}</span>
+          </div>
+          <div className="card-info">
+              <span className="info-item grey-text">длина в символах: {item.text.length}</span>
+            <span className="info-item grey-text">добавлено: {printDate(item.createdAt)}</span>
           </div>
           <div className="card-action">
             {renderApproveBtn(item)}
