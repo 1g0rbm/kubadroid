@@ -114,16 +114,14 @@ export const News = ({item}) => {
   }
 
   const renderEditBtn = item => {
-    if (item.approved) {
-      return (
-        <button className="btn-floating btn-small waves-effect waves-light grey"
-                data-target="modal1"
-                onClick={() => editHandler(item)}
-        >
-          <i className="material-icons">edit</i>
-        </button>
-      )
-    }
+    return (
+      <button className="btn-floating btn-small waves-effect waves-light grey"
+              data-target="modal1"
+              onClick={() => editHandler(item)}
+      >
+        <i className="material-icons">edit</i>
+      </button>
+    )
   }
 
   const printDate = date => new Intl.DateTimeFormat("ru-RU", {
